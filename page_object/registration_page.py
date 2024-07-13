@@ -1,13 +1,14 @@
-from page_object.main_method import MainMethod as MM
+from page_object.base import Base
 
 
 class RegistrationPage:
     def __init__(self, browser) -> None:
         self.browser = browser
+        self.base = Base(browser)
 
     def check_elem_on_page(self):
-        MM(browser=self.browser).element_visibility(selector='//*[@id="input-firstname"]')
-        MM(browser=self.browser).element_visibility(selector='//*[@id="input-password"]')
-        MM(browser=self.browser).element_visibility(selector='//*[@id="account-register"]/ul/li[3]/a')
-        MM(browser=self.browser).element_clickable(selector='//*[@id="logo"]')
-        MM(browser=self.browser).element_clickable(selector='//*[@id="input-newsletter"]')
+        self.base.element_visibility(selector='//*[@id="input-firstname"]')
+        self.base.element_visibility(selector='//*[@id="input-password"]')
+        self.base.element_visibility(selector='//*[@id="account-register"]/ul/li[3]/a')
+        self.base.element_clickable(selector='//*[@id="logo"]')
+        self.base.element_clickable(selector='//*[@id="input-newsletter"]')

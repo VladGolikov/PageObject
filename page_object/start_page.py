@@ -1,14 +1,15 @@
 from time import sleep
 from selenium.webdriver.common.by import By
-from page_object.main_method import MainMethod as MM
+from page_object.base import Base
 
 
 class StartPage:
     def __init__(self, browser) -> None:
         self.browser = browser
+        self.base = Base(browser)
 
     def checking_the_shopping_cart(self):
-        span_elem = MM(browser=self.browser).elem_by_xpath(selector='//*[@id="header-cart"]/div/button')
+        span_elem = self.base.elem_by_xpath(selector='//*[@id="header-cart"]/div/button')
         if span_elem.text != '0 item(s) - $0.00':
             raise ValueError(f'Корзина уже заполнена: {span_elem.text}')
 
@@ -20,7 +21,7 @@ class StartPage:
         elem.click()
 
     def scrolling_the_page_to_the_shopping_cart(self):
-        MM(browser=self.browser).scrolling_to_elem
+        self.base.scrolling_to_elem
 
     def check_cart(self, index):
         span_elem = self.browser.find_element(By.XPATH, '//*[@id="header-cart"]/div/button')
@@ -32,12 +33,12 @@ class StartPage:
                 raise ValueError(f'Корзина уже заполнена: {span_elem.text}')
 
     def change_currency_to_euro(self):
-        MM(browser=self.browser).click_to_element(selector='//*[@id="form-currency"]/div/a')
-        MM(browser=self.browser).click_to_element(selector='//*[@id="form-currency"]/div/ul/li[1]/a')
+        self.base.click_to_element(selector='//*[@id="form-currency"]/div/a')
+        self.base.click_to_element(selector='//*[@id="form-currency"]/div/ul/li[1]/a')
 
     def change_currency_to_pounds(self):
-        MM(browser=self.browser).click_to_element(selector='//*[@id="form-currency"]/div/a')
-        MM(browser=self.browser).click_to_element(selector='//*[@id="form-currency"]/div/ul/li[2]/a')
+        self.base.click_to_element(selector='//*[@id="form-currency"]/div/a')
+        self.base.click_to_element(selector='//*[@id="form-currency"]/div/ul/li[2]/a')
 
     def check_elem_price_in_euro(self, selector):
         """Проверка цены в евро на главной странице"""
@@ -57,5 +58,5 @@ class StartPage:
             raise ValueError(f'Цена не изменилась на евро в корзине на главной: {element.text}')
 
     def go_to_catalog_desktops(self):
-        MM(browser=self.browser).click_to_element(selector='//*[@id="narbar-menu"]/ul/li[1]/a')
-        MM(browser=self.browser).click_to_element(selector='//*[@id="narbar-menu"]/ul/li[1]/div/a')
+        self.base.click_to_element(selector='//*[@id="narbar-menu"]/ul/li[1]/a')
+        self.base.click_to_element(selector='//*[@id="narbar-menu"]/ul/li[1]/div/a')
