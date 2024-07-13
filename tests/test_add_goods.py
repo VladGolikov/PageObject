@@ -1,9 +1,10 @@
-from page_object.start_page import StartPage as SP
+from page_object.start_page import StartPage
 
 
 def test_add_to_cart(browser):
     """проверка добавления товара в корзину"""
-    SP(browser).checking_the_shopping_cart()
-    index = SP(browser).adding_product()
-    SP(browser).scrolling_the_page_to_the_shopping_cart()
-    SP(browser).check_cart(index=index)
+    page = StartPage(browser)
+    page.checking_the_shopping_cart()
+    index = page.adding_product()
+    page.scrolling_the_page_to_the_shopping_cart()
+    page.check_cart(index=index)

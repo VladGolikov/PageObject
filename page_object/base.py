@@ -4,7 +4,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-class MainMethod:
+class MainPage:
     def __init__(self, browser) -> None:
         self.browser = browser
 
@@ -58,7 +58,7 @@ class MainMethod:
         self.browser.get(link)
 
     def check_text_and_compariso(self, selector, text_comparison='Your Account Has Been Created!'):
-        text_elem = MainMethod(browser=self.browser).elem_by_xpath(selector=selector).text
+        text_elem = MainPage(browser=self.browser).elem_by_xpath(selector=selector).text
         if text_elem != text_comparison:
             raise ValueError(f'Регистрация не успешна')
 
