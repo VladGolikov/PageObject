@@ -11,6 +11,7 @@ class AdministrationPage:
 
     def check_elem_on_page(self):
         """Проверка элементов на странице авторизации под администратором"""
+
         self.base.element_visibility(selector='//*[@id="header"]/div/a')
         self.base.element_clickable(selector='//*[@id="input-username"]')
         self.base.element_clickable(selector='//*[@id="input-password"]')
@@ -19,8 +20,9 @@ class AdministrationPage:
 
     def go_to_admin_page(self):
         """Переход на страницу аминистратора с главной страницы"""
+        # elf.logger.debug("Возвращаю текст элемента по селектору: ")
         self.base.add_url_to_browser(added_url='administration/')
-        self.base.comparing_the_current_address(address='http://172.16.16.249:8081/administration/')
+        self.base.comparing_the_current_address(address='http://192.168.5.8:8081/administration/')
 
     def login_admin(self):
         """Авторизация на странице администратора"""
@@ -36,7 +38,7 @@ class AdministrationPage:
         self.base.click_to_element(selector='//*[@id="nav-logout"]')
         sleep(3)
         self.base.comparing_the_current_address(
-            address='http://172.16.16.249:8081/administration/index.php?route=common/login')
+            address='http://192.168.5.8:8081/administration/index.php?route=common/login')
 
     def go_to_my_product(self):
         """Переход с главной страницы аминистратора к товарам администратора"""

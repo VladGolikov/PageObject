@@ -1,11 +1,13 @@
 from time import sleep
 
+import allure
+
 from page_object.start_page import StartPage
 from page_object.base import Base
 
 
+@allure.step("Меняю валюту и проверяю на главное странице что она изменилась")
 def test_switch_currency_catalog(browser):
-    """Меняю валюту и проверяю на главное странице что она изменилась"""
     page = StartPage(browser)
     base = Base(browser)
     page.change_currency_to_pounds()
@@ -16,8 +18,8 @@ def test_switch_currency_catalog(browser):
                                                    '2]/div/div/span[1]')
 
 
+@allure.step("Проверка смены валюты на главной странице")
 def test_switch_currency_main(browser):
-    """Проверка смены валюты на главной странице"""
     page = StartPage(browser)
     base = Base(browser)
     page.change_currency_to_euro()
