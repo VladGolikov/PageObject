@@ -27,12 +27,13 @@ def pytest_addoption(parser):
     parser.addoption(
         "--vnc", action="store_true"
     )
-    parser.addoption(
-        "--logs", action="store_true"
-    )
-    parser.addoption(
-        "--video", action="store_true"
-    )
+    #оставлено для примера
+    # parser.addoption(
+    #     "--logs", action="store_true"
+    # )
+    # parser.addoption(
+    #     "--video", action="store_true"
+    #)
     parser.addoption(
         "--bv"
     )
