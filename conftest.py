@@ -21,6 +21,21 @@ def pytest_addoption(parser):
     parser.addoption(
         "--log_level", default="DEBUG"
     )
+    parser.addoption(
+        "--executor", action="store", default="192.168.5.8"
+    )
+    parser.addoption(
+        "--vnc", action="store_true"
+    )
+    parser.addoption(
+        "--logs", action="store_true"
+    )
+    parser.addoption(
+        "--video", action="store_true"
+    )
+    parser.addoption(
+        "--bv"
+    )
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -44,6 +59,14 @@ def browser(request):
     file_handler.setFormatter(logging.Formatter('%(levelname)s %(message)s'))
     logger.addHandler(file_handler)
     logger.setLevel(level=log_level)
+    executor = request.config.getoption("--executor")
+    vnc = request.config.getoption("--vnc")
+    version = request.config.getoption("--bv")
+    #оставлено для примера
+    # logs = request.config.getoption("--logs")
+    # video = request.config.getoption("--video")
+
+    executor_url = f"http://{executor}:4444/wd/hub"
 
     logger.info("===> Test %s started at %s" % (request.node.name, datetime.datetime.now()))
 
@@ -61,10 +84,33 @@ def browser(request):
     else:
         raise ValueError(f'Browser {browser_name} not supported')
 
-    allure.attach(
-        name=driver.session_id,
-        body=json.dumps(driver.capabilities, indent=4, ensure_ascii=False),
-        attachment_type=allure.attachment_type.JSON)
+    # allure.attach(
+    #     name=driver.session_id,
+    #     body=json.dumps(driver.capabilities, indent=4, ensure_ascii=False),
+    #     attachment_type=allure.attachment_type.JSON)
+
+    caps = {
+        "browserName": browser_name,
+        "browserVersion": version,
+        "selenoid:options": {
+            "enableVNC": vnc,
+            "name": request.node.name,
+            "screenResolution": "1280x720",
+            #оставлено для примера
+            # "enableVideo": video,
+            # "enableLog": logs,
+            "sessionTimeout": "30m"
+        },
+        "acceptInsecureCerts": True,
+    }
+
+    for k, v in caps.items():
+        options.set_capability(k, v)
+
+    driver = webdriver.Remote(
+        command_executor=executor_url,
+        options=options
+    )
 
     driver.maximize_window()
     driver.get(url)
